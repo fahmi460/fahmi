@@ -18,8 +18,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Halaman registrasi memakai StatefulWidget
-// karena ada data yang berubah (radio, dropdown, checkbox)
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -28,20 +26,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // Kunci untuk mengakses dan memvalidasi Form
   final _formKey = GlobalKey<FormState>();
 
-  // Controller untuk mengambil teks dari TextFormField
   final _namaController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  // FocusNode untuk memindahkan fokus antar field
   final _namaFocus = FocusNode();
   final _emailFocus = FocusNode();
   final _passwordFocus = FocusNode();
 
-  // Data pilihan
   String _gender = 'Laki-laki';
   String _prodi = 'Teknik Informatika';
   bool _setuju = false;
@@ -53,7 +47,6 @@ class _RegisterPageState extends State<RegisterPage> {
     'Manajemen',
   ];
 
-  // Bersihkan controller dan focus node saat halaman ditutup
   @override
   void dispose() {
     _namaController.dispose();
@@ -65,14 +58,11 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  // Dipanggil saat tombol Daftar ditekan
   void _daftar() {
-    // 1. Cek validasi semua field
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    // 2. Cek checkbox syarat & ketentuan
     if (!_setuju) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -83,7 +73,6 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    // 3. Semua lolos -> tampilkan dialog konfirmasi
     _tampilkanDialog();
   }
 
@@ -134,7 +123,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ===== Nama Lengkap =====
               TextFormField(
                 controller: _namaController,
                 focusNode: _namaFocus,
@@ -143,7 +131,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelText: 'Nama Lengkap',
                   border: OutlineInputBorder(),
                 ),
-                // Tombol "next" -> pindah ke Email
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_emailFocus);
                 },
@@ -156,7 +143,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
 
-              // ===== Email =====
               TextFormField(
                 controller: _emailController,
                 focusNode: _emailFocus,
@@ -166,7 +152,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
-                // Tombol "next" -> pindah ke Password
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_passwordFocus);
                 },
@@ -179,7 +164,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
 
-              // ===== Password =====
               TextFormField(
                 controller: _passwordController,
                 focusNode: _passwordFocus,
@@ -198,7 +182,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
 
-              // ===== Jenis Kelamin (Radio) =====
               const Text('Jenis Kelamin'),
               RadioListTile<String>(
                 title: const Text('Laki-laki'),
@@ -222,7 +205,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 8),
 
-              // ===== Program Studi (DropdownButton) =====
               const Text('Program Studi'),
               DropdownButton<String>(
                 value: _prodi,
@@ -241,7 +223,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 8),
 
-              // ===== Checkbox Syarat & Ketentuan =====
               CheckboxListTile(
                 title: const Text('Saya setuju dengan Syarat & Ketentuan'),
                 value: _setuju,
@@ -255,7 +236,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
 
-              // ===== Tombol Daftar =====
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
